@@ -68,7 +68,7 @@ def generate_calendar_pdf(df: pd.DataFrame) -> io.BytesIO:
     course_meta_style = ParagraphStyle('CourseMeta', parent=styles['Normal'], fontSize=6, leading=7.5, textColor=colors.HexColor('#333333'))
     link_style = ParagraphStyle('LinkStyle', parent=styles['Normal'], fontSize=6, leading=7.5, textColor=colors.HexColor('#0056b3'))
     empty_cell_style = ParagraphStyle('EmptyCell', parent=styles['Normal'], fontSize=6, leading=7, textColor=colors.HexColor('#cccccc'), alignment=1)
-
+    
     elements = [
         Paragraph("Learn@TLC - Course Training Calendar", title_style),
         Spacer(1, 8)
@@ -196,11 +196,7 @@ if df_raw is not None:
     ]
     
     for week in calendar_weeks:
-        active_days = [d for d in week["days"] if d is not None]
-        if not filtered_df['Date'].isin(active_days).any():
-            continue
-            
-        st.markdown(f"**{week['name']}**")
+        st.markdown(f"### {week['name']}")
         week_cols = st.columns(5)
         
         for c_idx, date_val in enumerate(week["days"]):
@@ -235,7 +231,7 @@ if df_raw is not None:
                                     )
                                 st.markdown("<hr style='margin: 6px 0; border: none; border-top: 1px dashed #eee;' />", unsafe_allow_html=True)
                 else:
-                    st.empty()
+                    st.write("")
 
     with st.expander("📊 Raw Data Inspector"):
         st.dataframe(filtered_df, use_container_width=True)
